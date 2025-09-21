@@ -6,7 +6,8 @@ export default function useReserva(token, role) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const API_RESERVAS = "http://localhost:8080/api/reservations";
+  const API_RESERVAS = import.meta.env.VITE_API_RESERVAS;
+
 
   const fetchReservas = useCallback(async () => {
     setLoading(true);
@@ -18,14 +19,14 @@ export default function useReserva(token, role) {
       if (!response.ok) throw new Error("No se pudieron cargar las reservas");
       const data = await response.json();
       console.log("Reservas cargadas:", data);
-      setReservas(data); // Se setea tal cual venía de la API
+      setReservas(data); 
       setError("");
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
-  }, [token, role]);
+  }, [token, role,API_RESERVAS]);
 
   useEffect(() => {
     fetchReservas();

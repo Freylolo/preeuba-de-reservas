@@ -12,14 +12,14 @@ export default function Register() {
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
   
-  const API_URL = "http://localhost:8080";
+  const API_BASE = import.meta.env.VITE_API_BASE;
   const register = async (e) => {
     e.preventDefault();
 
     const userData = { name, email, password, role };
 
     try {
-      const response = await fetch(`${API_URL}/api/users`, {
+      const response = await fetch(`${API_BASE}/api/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

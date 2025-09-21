@@ -10,7 +10,9 @@ export default function Login() {
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
-  const API_URL = "http://localhost:8080";
+  const API_BASE = import.meta.env.VITE_API_BASE;
+  console.log("API_BASE:", API_BASE);
+  
 
   const login = async (e) => {
   e.preventDefault();
@@ -22,7 +24,7 @@ export default function Login() {
   }
 
   try {
-    const response = await fetch(`${API_URL}/api/auth/login`, {
+    const response = await fetch(`${API_BASE }/api/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -49,7 +51,7 @@ export default function Login() {
     // Decodificar payload del JWT
     const token = data.token;
     const payload = JSON.parse(atob(token.split('.')[1]));
-    const role = payload.rol || payload.role || "USER"; // según cómo tu backend lo llame
+    const role = payload.rol || payload.role || "USER";
     const userEmail = payload.sub || data.email;
 
     // Guardar en localStorage

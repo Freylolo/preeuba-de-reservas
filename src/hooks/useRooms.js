@@ -8,13 +8,13 @@ export default function useRooms(token) {
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
 
-  const API_URL = "http://localhost:8080/api/rooms";
+  const API_ROOMS = import.meta.env.VITE_API_ROOMS;
 
   // Fetch rooms
   const fetchRooms = useCallback(async () => {
   setLoading(true);
   try {
-    const response = await fetch(API_URL, {
+    const response = await fetch(API_ROOMS, {
       headers: token
         ? { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }
         : { "Content-Type": "application/json" },
@@ -28,7 +28,7 @@ export default function useRooms(token) {
   } finally {
     setLoading(false);
   }
-}, [token]);
+}, [token, API_ROOMS]);
 
 
  useEffect(() => {
@@ -54,7 +54,7 @@ export default function useRooms(token) {
 
     try {
       const nuevoEstado = estado?.toUpperCase() === "AVAILABLE" ? "UNAVAILABLE" : "AVAILABLE";
-      const response = await fetch(`${API_URL}/${id}/estado?estado=${nuevoEstado}`, {
+      const response = await fetch(`${API_ROOMS}/${id}/estado?estado=${nuevoEstado}`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -73,7 +73,7 @@ export default function useRooms(token) {
   const eliminarRoom = async id => {
     if (!token) return setInfo("Debes estar logueado para eliminar");
     try {
-      const response = await fetch(`${API_URL}/${id}`, {
+      const response = await fetch(`${API_ROOMS}/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
       });
@@ -89,7 +89,7 @@ export default function useRooms(token) {
   const editarRoom = async (roomEditar, nuevoNombre, nuevaCapacidad, nuevaUbicacion, closeModal) => {
     if (!token) return setInfo("Sin permisos");
     try {
-      const response = await fetch(`${API_URL}/${roomEditar.id}`, {
+      const response = await fetch(`${API_ROOMS}/${roomEditar.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -134,7 +134,7 @@ export default function useRooms(token) {
         ubicacion: crearUbicacion,
         estado: "AVAILABLE",
       };
-      const response = await fetch(API_URL, {
+      const response = await fetch(API_ROOMS, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify(body),

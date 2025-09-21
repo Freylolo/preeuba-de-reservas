@@ -70,7 +70,7 @@ export default function Reservas() {
   return (
     <div className="min-h-screen bg-gray-100 p-8 font-serif">
       <Header />
-
+      <br></br>
       <h1 className="text-4xl font-bold text-black mb-6 text-center">Lista de Reservas</h1>
 
       {/* Buscador y botón */}
